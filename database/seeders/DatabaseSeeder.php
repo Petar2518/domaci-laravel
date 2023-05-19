@@ -12,11 +12,23 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // \App\Models\User::factory(10)->create();
+        \App\Models\Language::truncate();
+        \App\Models\User::truncate();
 
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
+        \App\Models\User::factory(10)->create();
+
+
+        \App\Models\Language::create([
+            'language'=>"English",
+            'description'=>"Globally known language"
+        ]);
+        \App\Models\Language::create([
+            'language'=>"French",
+            'description'=>"Very popular language"
+        ]);
+        \App\Models\Language::create([
+            'language'=>"German",
+            'description'=>"Increasingly popular language considering workpower Germany needs"
+        ]);
     }
 }
