@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserCourseController;
 use App\Http\Controllers\CourseController;
+use App\Http\Controllers\API\AuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,8 +23,16 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 Route::get('/users',[UserController::class,'index']);
 Route::get('/users/{id}',[UserController::class,'show']);
-// Route::get('/courses',[CourseController::class,'index']);
-// Route::get('/courses/{id}',[CourseController::class,'show']);
-Route::resource('courses',CourseController::class);
-// Route::get('/users/{id}/posts',[UserCourseController::class,'index'])->name('users.posts.index');
 Route::resource('users.courses',UserCourseController::class)->only(['index']);
+Route::post('/register', [AuthController::class, 'register']);
+Route::post('/login', [AuthController::class, 'login']);
+Route::group(['middleware' => ['auth:sanctum']], function () {
+    Route::get('/profile', function(Request $request) {
+        return auth()->user();
+    });
+    Route::resource('courses', CourseController::class)->only(['update','store','destroy']);
+
+    // API route for logout user
+    Route::post('/logout', [AuthController::class, 'logout']);
+});
+Route::resource('courses',CourseController::class)->only(['index']);

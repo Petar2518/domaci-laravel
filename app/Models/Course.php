@@ -8,12 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class Course extends Model
 {
     use HasFactory;
-
-    protected $fillable = [
-        'title',
-        'level',
-        'description',
-    ];
+    protected $guarded = [];
+    // protected $fillable = [
+    //     'title',
+    //     'level',
+    //     'description',
+    // ];
 
     public function language(){
         return $this->belongsTo(Language::class);
